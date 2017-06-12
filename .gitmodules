@@ -4,3 +4,6 @@
 [submodule "esptool2"]
 	path = esptool2
 	url = https://github.com/raburton/esptool2.git
+[submodule "esptool"]
+	path = esptool
+	url = https://github.com/themadinventor/esptool.git
