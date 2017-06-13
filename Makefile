@@ -25,7 +25,8 @@ firmware/rboot.bin: rboot/firmware/rboot.bin firmware
 
 flash: firmware/rboot.bin
 	$(ESPTOOL) $(ESPTOOL_OPTS) write_flash $(ESPTOOL_WRITE_OPTS) \
-		0x0000 firmware/rboot.bin
+		0x000000 firmware/rboot.bin \
+		0x3fc000 $(SDK)/bin/esp_init_data_default.bin
 
 clean:
 	rm -rf firmware
