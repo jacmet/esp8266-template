@@ -97,7 +97,7 @@ firmware/%.bin: firmware/%.elf
 
 firmware/%.elf: $(OBJS) firmware/%.ld
 	$(CC) $(LDFLAGS) -L $(SDK)/ld -T $(@:.elf=.ld) \
-		-Wl,--start-group $(addprefix -l,$(LIBS)) $< -Wl,--end-group \
+		-Wl,--start-group $(addprefix -l,$(LIBS)) $(filter-out %.ld,$^) -Wl,--end-group \
 		-o $@
 
 # libesphttpd
