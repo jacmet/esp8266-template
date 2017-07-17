@@ -128,6 +128,14 @@ flash: firmware/rboot.bin firmware/rom0.bin firmware/rom1.bin
 		$(ROM1) firmware/rom1.bin \
 		$(INITDATA_START) $(SDK)/bin/esp_init_data_default.bin
 
+flash-rom0: firmware/rom0.bin
+	$(ESPTOOL) $(ESPTOOL_OPTS) write_flash $(ESPTOOL_WRITE_OPTS) \
+		$(ROM0) firmware/rom0.bin
+
+flash-rom1: firmware/rom0.bin
+	$(ESPTOOL) $(ESPTOOL_OPTS) write_flash $(ESPTOOL_WRITE_OPTS) \
+		$(ROM0) firmware/rom0.bin
+
 clean:
 	rm -rf firmware
 	$(MAKE) -C rboot clean
