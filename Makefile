@@ -97,6 +97,10 @@ firmware/%.elf: $(OBJS) firmware/%.ld
 		-Wl,--start-group $(addprefix -l,$(LIBS)) $< -Wl,--end-group \
 		-o $@
 
+# libesphttpd
+libesphttpd/libesphttpd.a:
+	$(MAKE) -C libesphttpd SDK_BASE=$(SDK) XTENSA_TOOLS_ROOT=$(XTENSA_BINDIR)/ USE_OPENSDK=yes
+
 # rboot build options
 RBOOT_OPTS ?= RBOOT_BAUDRATE=115200
 
@@ -125,5 +129,6 @@ clean:
 	rm -rf firmware
 	$(MAKE) -C rboot clean
 	$(MAKE) -C esptool2 clean
+	$(MAKE) -C libesphttpd clean
 
 .PHONY: clean flash

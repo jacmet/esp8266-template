@@ -7,3 +7,7 @@
 [submodule "esptool"]
 	path = esptool
 	url = https://github.com/espressif/esptool.git
+[submodule "libesphttpd"]
+	path = libesphttpd
+	url = https://github.com/jacmet/libesphttpd.git
+	branch = sdk-2x-support
