@@ -82,8 +82,11 @@ CFLAGS  = -Os -g -O2 -Wpointer-arith -Wundef -Werror -Wno-implicit \
 	-D__ets__ -DICACHE_FLASH -I.
 LDFLAGS = -nostdlib -Wl,--no-check-sections -u call_user_start -Wl,-static
 
+all: firmware/rom0.bin firmware/rom1.bin
+
 # fixup rom0 location/size for rom0/rom1 builds
 firmware/rom%.ld: $(BASE_LDSCRIPT)
+	mkdir -p $(@D)
 	sed 's/\(.*irom0_0_seg :.*org = \)0x[0-9a-fA-F]*, len = 0x[0-9a-fA-F]*/\1$(ROM), len = $(ROM_SIZE)/' $^ > $@
 
 firmware/rom0.ld: ROM=$(call tohex,$(FLASH_MEMADDR) + $(ROM0) + 0x10)
@@ -93,7 +96,7 @@ firmware/%.bin: firmware/%.elf
 	$(ESPTOOL) $(ESPTOOL_OPTS) elf2image --version=2 -o $@ $^
 
 firmware/%.elf: $(OBJS) firmware/%.ld
-	$(CC) $(LDFLAGS) -L $(SDK)/ld -T $(@F:.elf=.ld) \
+	$(CC) $(LDFLAGS) -L $(SDK)/ld -T $(@:.elf=.ld) \
 		-Wl,--start-group $(addprefix -l,$(LIBS)) $< -Wl,--end-group \
 		-o $@
 
