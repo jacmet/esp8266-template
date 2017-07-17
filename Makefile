@@ -82,6 +82,10 @@ CFLAGS  = -Os -g -O2 -Wpointer-arith -Wundef -Werror -Wno-implicit \
 	-D__ets__ -DICACHE_FLASH -I.
 LDFLAGS = -nostdlib -Wl,--no-check-sections -u call_user_start -Wl,-static
 
+# libesphttpd
+CFLAGS += -I libesphttpd/include
+OBJS += libesphttpd/libesphttpd.a
+
 all: firmware/rom0.bin firmware/rom1.bin
 
 # fixup rom0 location/size for rom0/rom1 builds
