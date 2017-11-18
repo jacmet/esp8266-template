@@ -84,7 +84,7 @@ LDFLAGS = -nostdlib -Wl,--no-check-sections -u call_user_start -Wl,-static
 
 # libesphttpd
 CFLAGS += -I libesphttpd/include
-OBJS += libesphttpd/libesphttpd.a
+OBJS += libesphttpd/libesphttpd.a libesphttpd/libwebpages-espfs.a
 
 all: firmware/rom0.bin firmware/rom1.bin
 
@@ -105,7 +105,7 @@ firmware/%.elf: $(OBJS) firmware/%.ld
 		-o $@
 
 # libesphttpd
-libesphttpd/libesphttpd.a:
+libesphttpd/libesphttpd.a libesphttpd/libwebpages-espfs.a:
 	$(MAKE) -C libesphttpd SDK_BASE=$(SDK) XTENSA_TOOLS_ROOT=$(XTENSA_BINDIR)/ USE_OPENSDK=yes
 
 # rboot build options
