@@ -2,6 +2,7 @@
 # SDK=/path/to/sdk-dir
 # XTENSA_BINDIR=/path/to/xtenxa/bin
 # FLASH_SIZE=0x400000
+-include .config
 
 # the base ldscript that will be used for rom0/rom1 builds (after
 # adjusting rom0 location/size)
