@@ -126,6 +126,7 @@ firmware/rboot.bin: rboot/firmware/rboot.bin firmware
 	cp $< $@
 
 flash: firmware/rboot.bin firmware/rom0.bin firmware/rom1.bin
+	$(ESPTOOL) $(ESPTOOL_OPTS) erase_region 4096 4096 # rboot config
 	$(ESPTOOL) $(ESPTOOL_OPTS) erase_region $(SYSPARAM_START) $(SYSPARAM_SIZE)
 	$(ESPTOOL) $(ESPTOOL_OPTS) write_flash $(ESPTOOL_WRITE_OPTS) \
 		0x000000 firmware/rboot.bin \
