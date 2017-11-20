@@ -9,6 +9,7 @@
 BASE_LDSCRIPT = $(SDK)/ld/eagle.app.v6.ld
 
 CC := $(XTENSA_BINDIR)/xtensa-lx106-elf-gcc
+AR := $(XTENSA_TOOLS_ROOT)$(TOOLPREFIX)ar
 
 ifeq ($(wildcard $(BASE_LDSCRIPT)),)
 $(error Missing or invalid SDK setting. Pass SDK=/path/to/sdk/dir)
@@ -91,6 +92,10 @@ OBJS += rboot/appcode/rboot-api.o
 CFLAGS += -I libesphttpd/include
 OBJS += libesphttpd/libesphttpd.a libesphttpd/libwebpages-espfs.a
 
+# esp_mqtt
+CFLAGS += -I esp_mqtt/mqtt/include
+OBJS += esp_mqtt/libmqtt.a
+
 all: firmware/rom0.bin firmware/rom1.bin
 
 # fixup rom0 location/size for rom0/rom1 builds
@@ -112,6 +117,10 @@ firmware/%.elf: $(OBJS) firmware/%.ld
 # libesphttpd
 libesphttpd/libesphttpd.a libesphttpd/libwebpages-espfs.a:
 	$(MAKE) -C libesphttpd SDK_BASE=$(SDK) XTENSA_TOOLS_ROOT=$(XTENSA_BINDIR)/ USE_OPENSDK=yes
+
+# libmqtt
+esp_mqtt/libmqtt.a: $(patsubst %.c,%.o,$(wildcard esp_mqtt/mqtt/*.c))
+	$(AR) cr $@ $^
 
 # rboot build options
 RBOOT_OPTS ?= RBOOT_BAUDRATE=115200

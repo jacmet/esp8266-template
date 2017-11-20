@@ -11,3 +11,6 @@
 	path = libesphttpd
 	url = https://github.com/spritetm/libesphttpd.git
 	branch = master
+[submodule "esp_mqtt"]
+	path = esp_mqtt
+	url = https://github.com/tuanpmt/esp_mqtt.git
