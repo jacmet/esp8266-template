@@ -75,13 +75,17 @@ INITDATA_START := $(call tohex,$(FLASH_SIZE) - 16 * 1024)
 FLASH_MEMADDR = 0x40200000
 
 
-SRCS ?= main.c
+SRCS ?= main.c $(wildcard src/*.c)
 OBJS = $(SRCS:.c=.o)
 LIBS = c gcc hal phy pp net80211 lwip wpa main
 CFLAGS  = -Os -g -O2 -Wpointer-arith -Wundef -Werror -Wno-implicit \
 	-Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals \
-	-D__ets__ -DICACHE_FLASH -I.
+	-D__ets__ -DICACHE_FLASH -I. -I include
 LDFLAGS = -nostdlib -Wl,--no-check-sections -u call_user_start -Wl,-static
+
+# rboot
+CFLAGS += -I rboot -I rboot/appcode
+OBJS += rboot/appcode/rboot-api.o
 
 # libesphttpd
 CFLAGS += -I libesphttpd/include
@@ -148,4 +152,4 @@ clean:
 	$(MAKE) -C esptool2 clean
 	$(MAKE) -C libesphttpd clean
 
-.PHONY: clean flash
+.PHONY: clean flash wiflash all
