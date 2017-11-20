@@ -146,6 +146,13 @@ flash-rom1: firmware/rom0.bin
 	$(ESPTOOL) $(ESPTOOL_OPTS) write_flash $(ESPTOOL_WRITE_OPTS) \
 		$(ROM0) firmware/rom0.bin
 
+wiflash: firmware/rom0.bin firmware/rom1.bin
+	if [ -z "$(IP)" ]; then \
+		echo "No IP address provided. Please pass IP=<ipaddr>" >&2; \
+		exit 1; \
+	fi
+	./wiflash $(IP) $^
+
 clean:
 	rm -rf firmware
 	$(MAKE) -C rboot clean
